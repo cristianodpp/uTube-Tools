@@ -1,16 +1,14 @@
 from pytube import YouTube
+from pathlib import Path
 import os
 import sys
 import errno
 import subprocess
-from pathlib import Path
+import json
 
 # Folder to save the videos
 SAVE_PATH_VIDEOS = "./videos/"
 SAVE_PATH_AUDIOS = "./audios/"
-
-# link of the video to be downloaded
-link = open('youtube_video_links.txt', 'r')  # opening the file
 
 # Create folder if not exist
 if not os.path.exists(SAVE_PATH_VIDEOS):

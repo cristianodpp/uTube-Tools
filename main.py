@@ -18,6 +18,7 @@ print("\n")
 # Hide errors
 sys.tracebacklimit = 0
 
+# Select option
 option = input('Enter the number to execute: ')
 
 # Download videos from youtube
@@ -30,10 +31,12 @@ elif option == '2':
     audioHandler = audio_handler.audioHandlerClass()
     audioHandler.downloadAudios()
 
+# Generate a new video
 elif option == '3':
     makerHandler = maker.makerHandlerClass()
     makerHandler.generateVideo()
 
+# Exit
 elif option == '0':
     print("\n"+5*"*"+" closed "+5*"*"+"\n")
     sys.exit()

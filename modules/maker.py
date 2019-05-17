@@ -1,6 +1,8 @@
 from moviepy.editor import *
 import errno
 import os
+import json
+import datetime
 
 SAVE_PATH_VIDEOS = "./videos_compiled/"
 
@@ -12,29 +14,55 @@ if not os.path.exists(SAVE_PATH_VIDEOS):
         if e.errno != errno.EEXIST:
             raise
 
-
 class makerHandlerClass:
 
     def generateVideo(self):
-        
+
         print('--- Generating a video')
 
-
-        screensize = (720, 460)
-        txtClip = TextClip('Cool effect', color='white', font="Amiri-Bold",
-                        kerning=5, fontsize=100)
-
-        clip1 = VideoFileClip("videos/HQMkxmtPZhg.mp4").subclip(t_start='00:15:00.00', t_end='00:15:05.00')
-        clip2 = VideoFileClip("videos/e7KmVb9YOCk.mp4").subclip(t_start='00:04:00.00', t_end='00:04:05.00')
-        clip3 = VideoFileClip("videos/PIraI9CNuzQ.mp4").subclip(t_start='00:06:00.00', t_end='00:06:05.00')
+        clipList = []
+        concatenateClipList = []
+        concatenateClipCount = 0
         
-        final_clip = concatenate([
-            clip1.set_start(0).crossfadein(0.5).audio_fadeout(clip2.start),
-            clip2.crossfadein(1).audio_fadein(clip1.end-1).audio_fadeout(clip2.end),
-            clip3.crossfadein(1).audio_fadein(clip2.end-1).audio_fadeout(clip3.end)],
-            padding=-1, method="compose")
+        # Prepare Open to json fiel
+        with open('youtube_video_links.json') as json_file:
+            
+            # Read a json file with videos and put on var
+            videoList = json.load(json_file)
+            
+            # Counter to clips
+            clipCount = 0
 
+            # Select the intervals from subclips
+            for item in videoList['video_list']:
+                clipList.append(VideoFileClip("videos/"+item['video_id']+".mp4").subclip(t_start=item['t_start'], t_end=item['t_end']))
+                clipCount += 1
+    
+        # Set effects for each clip
+        for clip in clipList:
+            if(concatenateClipCount == 0):
+                concatenateClipList.append(clip.set_start(0).crossfadein(0.5).audio_fadeout(clip.start))
+            else:
+                concatenateClipList.append(clip.crossfadein(1).audio_fadein(clip.end-1).audio_fadeout(clip.end))
+            concatenateClipCount += 1
+        
+        # End the show
+        closeClip = TextClip('Thanks for whatching', color='white', font="Amiri-Bold",
+                             kerning=5, fontsize=100, bg_color='black').set_duration(5)
+        
+        # Push to concatenate clips 
+        concatenateClipList.append(closeClip)
+
+        # Execute the concatenate of clips
+        final_clip = concatenate(
+            concatenateClipList, padding=-1, method="compose")
+
+        # Get time now
+        dateToday = datetime.datetime.today()
+        dateToday = dateToday.strftime('%Y%m%d%H%M%S')
+        
+        # Render the video
         final_clip.write_videofile(
-            SAVE_PATH_VIDEOS + "my_concatenation.mp4", codec='libx264', audio_codec='aac', remove_temp=True)
+            SAVE_PATH_VIDEOS + dateToday +".mp4", fps=60, codec='libx264', audio_codec='aac', remove_temp=True)
 
         print("--- Task Completed")

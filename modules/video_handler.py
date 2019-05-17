@@ -4,16 +4,11 @@ import os
 import sys
 import errno
 import subprocess
-
-# link of the video to be downloaded
-link = open('youtube_video_links.txt', 'r')  # opening the file
+import json 
 
 # Folder to save the videos
 SAVE_PATH_VIDEOS = "./videos/"
 SAVE_PATH_AUDIOS = "./audios/"
-
-# link of the video to be downloaded
-link = open('youtube_video_links.txt', 'r')  # opening the file
 
 # Create folder if not exist
 if not os.path.exists(SAVE_PATH_VIDEOS):
@@ -41,20 +36,19 @@ class videoHandlerClass:
         print("--- Title = " + videoTitle)
         
         # Downloading
+        # https://www.youtube.com/watch?v=
         print("--- Downloading")
         YouTube(videourl).streams.first().download(
-            output_path=SAVE_PATH_VIDEOS, filename=_filename)
+            output_path=SAVE_PATH_VIDEOS, filename=_filename) 
 
     def downloadVideos(self):
         # Run the script
         print("--- Starting video downloads")
-        for i in link:
 
-            # Filename specification
-            _filename = YouTube(i).video_id
-
-            self.getVideo(_filename, i)
-            #extractAudio(_filename, i)
+        with open('youtube_video_links.json') as json_file:
+            data = json.load(json_file)
+            for item in data['video_list']:
+                _filename = YouTube(item['video_id']).video_id
 
             # Completion
             print("--- Task Completed")
