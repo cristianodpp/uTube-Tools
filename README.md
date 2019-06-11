@@ -17,19 +17,11 @@ This project uses [pytube](https://github.com/nficano/pytube) to download the vi
 
     Install the latest version of python 3. 
 
-    ``` bash
-        $ brew install python3
-    ```
+    $ brew install python3
 
-    ``` bash
-        $ pip3 install pytube
-    ```
+    $ pip3 install pytube
 
-    ``` bash
-        $ pip3 install ffmpeg
-    ```
+    $ pip3 install ffmpeg
 
-    ``` bash
-        $ pip3 install moviepy
-    ```
+    $ pip3 install moviepy
 
