@@ -15,8 +15,6 @@ This project uses [pytube](https://github.com/nficano/pytube) to download the vi
 
 ## Install
 
-    Install the latest version of python 3. 
-
     $ brew install python3
 
     $ pip3 install pytube
