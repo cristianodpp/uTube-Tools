@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 import sys
+import core
 from modules import audio_handler
 from modules import video_handler
 from modules import maker
@@ -16,7 +17,10 @@ print("[0] - Exit")
 print("\n")
 
 # Hide errors
-sys.tracebacklimit = 0
+# sys.tracebacklimit = 0
+
+# Create folders
+core.coreClass().main()
 
 # Select option
 option = input('Enter the number to execute: ')

@@ -1,18 +1,7 @@
 from moviepy.editor import *
-import errno
-import os
+import core
 import json
 import datetime
-
-SAVE_PATH_VIDEOS = "./videos_compiled/"
-
-# Create folder if not exist
-if not os.path.exists(SAVE_PATH_VIDEOS):
-    try:
-        os.makedirs(SAVE_PATH_VIDEOS)
-    except OSError as e:
-        if e.errno != errno.EEXIST:
-            raise
 
 class makerHandlerClass:
 
@@ -63,6 +52,6 @@ class makerHandlerClass:
         
         # Render the video
         final_clip.write_videofile(
-            SAVE_PATH_VIDEOS + dateToday +".mp4", fps=60, codec='libx264', audio_codec='aac', remove_temp=True)
+            core.SAVE_PATH_VIDEOS + dateToday +".mp4", fps=60, codec='libx264', audio_codec='aac', remove_temp=True)
 
         print("--- Task Completed")
