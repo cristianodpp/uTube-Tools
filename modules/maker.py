@@ -1,4 +1,5 @@
 from moviepy.editor import *
+import prepare
 import core
 import json
 import datetime
@@ -52,6 +53,9 @@ class makerHandlerClass:
         
         # Render the video
         final_clip.write_videofile(
-            core.SAVE_PATH_VIDEOS + dateToday +".mp4", fps=60, codec='libx264', audio_codec='aac', remove_temp=True)
+            prepare.SAVE_PATH_VIDEOS_COMPILED + dateToday + ".mp4", fps=60, codec='libx264', audio_codec='aac', remove_temp=True)
 
         print("--- Task Completed")
+
+        # Call menu
+        core.coreClass().main()

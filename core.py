@@ -1,34 +1,39 @@
 import errno
 import os
-
-SAVE_PATH_VIDEOS = "./videos/"
-SAVE_PATH_AUDIOS = "./audios/"
-SAVE_PATH_VIDEOS_COMPILED = "./videos_compiled/"
-YOUTUBE_LINK = "https://www.youtube.com/watch?v="
+from modules import audio_handler
+from modules import video_handler
+from modules import maker
 
 class coreClass:
     def main(self):
 
-        # Create folder if not exist
-        if not os.path.exists(SAVE_PATH_VIDEOS):
-            try:
-                os.makedirs(SAVE_PATH_VIDEOS)
-            except OSError as e:
-                if e.errno != errno.EEXIST:
-                    raise
+        # Print the menu
+        print("\n Options Available:")
+        print("[1] - Download videos")
+        print("[2] - Extract utube audio to mp3")
+        print("[3] - Generate a new video")
+        print("[0] - Exit")
+        print("\n")
 
-        # Create folder if not exist
-        if not os.path.exists(SAVE_PATH_VIDEOS_COMPILED):
-            try:
-                os.makedirs(SAVE_PATH_VIDEOS_COMPILED)
-            except OSError as e:
-                if e.errno != errno.EEXIST:
-                    raise
+        # Select option
+        option = input('Enter the number to execute: ')
 
-        # Create folder if not exist
-        if not os.path.exists(SAVE_PATH_AUDIOS):
-            try:
-                os.makedirs(SAVE_PATH_AUDIOS)
-            except OSError as e:
-                if e.errno != errno.EEXIST:
-                    raise
+        # Download videos from youtube
+        if option == '1':
+            videoHandler = video_handler.videoHandlerClass()
+            videoHandler.downloadVideos()
+
+        # Extract utube audio to mp3
+        elif option == '2':
+            audioHandler = audio_handler.audioHandlerClass()
+            audioHandler.downloadAudios()
+
+        # Generate a new video
+        elif option == '3':
+            makerHandler = maker.makerHandlerClass()
+            makerHandler.generateVideo()
+
+        # Exit
+        elif option == '0':
+            print("\n"+5*"*"+" closed "+5*"*"+"\n")
+            sys.exit()
